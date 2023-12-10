@@ -38,7 +38,7 @@ def find_surrounding_array(farray, number_range, line_number):
     if column_end != len(farray[0]):
         column_end += 1
 
-    surrounding_array = [farray[line][column_start:column_end+1] for line in line_range]
+    surrounding_array = [farray[line][column_start:column_end] for line in line_range]
 
     return surrounding_array
 
