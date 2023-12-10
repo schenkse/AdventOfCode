@@ -4,11 +4,12 @@ import re
 def find_gear_indices(farray):
     gear_indices = []
     for line_number, line in enumerate(farray):
-        column_number = line.find('*')
-        if column_number != -1:
-            gear_array = find_surrounding_array(farray, range(column_number, column_number+2), line_number)
-            if is_gear(gear_array):
-                gear_indices.append((line_number, column_number))
+        column_numbers = [m.start() for m in re.finditer(r"\*", line)]
+        if column_numbers:
+            for column_number in column_numbers:
+                gear_array = find_surrounding_array(farray, range(column_number, column_number+2), line_number)
+                if is_gear(gear_array):
+                    gear_indices.append((line_number, column_number))
 
     return gear_indices
 
@@ -66,9 +67,10 @@ def find_gear_numbers(farray, gear_index):
     gear_numbers = []
     for line in farray[line_start:line_end+1]:
         for m in re.finditer(r'\d+', line):
-            if gear_column in range(*m.span()) or gear_column-1 in range(*m.span()) or gear_column+1 in range(*m.span()):
+            number_range = range(*m.span())
+            if gear_column in number_range or gear_column-1 in number_range or gear_column+1 in number_range:
                 gear_numbers.append(int(m.group()))
-    
+
     return gear_numbers
 
 
