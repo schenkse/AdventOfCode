@@ -1,4 +1,3 @@
-import numpy as np
 import re
 
 def find_special_characters(farray):
